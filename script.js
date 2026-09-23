@@ -1,109 +1,121 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+const content = document.getElementById("content");
+
+const devices = {
+    "Vivo Y28": [90, 85, 80, 75, 50],
+    "Vivo Y27": [89, 84, 79, 74, 49],
+    "Vivo Y36": [91, 86, 81, 76, 51],
+
+    "Samsung Galaxy A15": [88, 83, 78, 73, 48],
+    "Samsung Galaxy A25": [89, 84, 79, 74, 49],
+    "Samsung Galaxy A35": [90, 85, 80, 75, 50],
+    "Samsung Galaxy A55": [91, 86, 81, 76, 51],
+
+    "iPhone 11": [89, 84, 79, 74, 49],
+    "iPhone 12": [90, 85, 80, 75, 50],
+    "iPhone 13": [91, 86, 81, 76, 51],
+    "iPhone 14": [92, 87, 82, 77, 52],
+    "iPhone 15": [92, 87, 82, 77, 52],
+
+    "Tecno Spark 20": [88, 83, 78, 73, 48],
+    "Tecno Camon 20": [89, 84, 79, 74, 49],
+    "Tecno Pova 6": [90, 85, 80, 75, 50],
+
+    "Infinix Hot 40": [88, 83, 78, 73, 48],
+    "Infinix Note 40": [90, 85, 80, 75, 50],
+    "Infinix GT 20 Pro": [92, 87, 82, 77, 52],
+
+    "Redmi Note 13": [90, 85, 80, 75, 50],
+    "Redmi Note 12": [89, 84, 79, 74, 49]
+};
+
+document.getElementById("startBtn").addEventListener("click", function () {
+    content.innerHTML = `
+        <h2>🚀 Welcome</h2>
+        <p>Choose Device Settings to find your phone.</p>
+    `;
+
+    content.scrollIntoView({ behavior: "smooth" });
+});
+
+document.getElementById("sensitivityBtn").addEventListener("click", function () {
+    showSettings("🎯 General Sensitivity Guide", [90, 85, 80, 75, 50]);
+});
+
+document.getElementById("deviceBtn").addEventListener("click", function () {
+    showDeviceList();
+});
+
+document.getElementById("tipsBtn").addEventListener("click", function () {
+    content.innerHTML = `
+        <h2>💡 Tips & Tricks</h2>
+        <p>🎯 Practice your aim regularly.</p>
+        <p>⚙️ Adjust settings gradually.</p>
+        <p>📱 Keep your controls comfortable.</p>
+        <p>🏆 Practice before competitive matches.</p>
+        <p>🔄 Test different settings in training.</p>
+    `;
+
+    content.scrollIntoView({ behavior: "smooth" });
+});
+
+function showDeviceList() {
+    let buttons = "";
+
+    Object.keys(devices).forEach(function (device) {
+        buttons += `
+            <button class="device-button" data-device="${device}">
+                📱 ${device}
+            </button>
+        `;
+    });
+
+    content.innerHTML = `
+        <h2>📱 Choose Your Device</h2>
+        <p>Select your phone to view example settings.</p>
+        <div class="device-list">
+            ${buttons}
+        </div>
+    `;
+
+    document.querySelectorAll(".device-button").forEach(function (button) {
+        button.addEventListener("click", function () {
+            showDevice(this.dataset.device);
+        });
+    });
+
+    content.scrollIntoView({ behavior: "smooth" });
 }
 
-body {
-    background: #0b0b0b;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    min-height: 100vh;
+function showDevice(device) {
+    const settings = devices[device];
+
+    if (!settings) {
+        content.innerHTML = "<h2>Device not found</h2>";
+        return;
+    }
+
+    showSettings(`📱 ${device}`, settings);
 }
 
-header {
-    padding: 25px 15px;
-    border-bottom: 1px solid #333;
-}
+function showSettings(title, settings) {
+    content.innerHTML = `
+        <h2>${title}</h2>
 
-.logo {
-    font-size: 30px;
-    font-weight: bold;
-}
+        <p>🎯 General: ${settings[0]}</p>
+        <p>🔴 Red Dot: ${settings[1]}</p>
+        <p>🔭 2x Scope: ${settings[2]}</p>
+        <p>🔭 4x Scope: ${settings[3]}</p>
+        <p>🎯 Sniper Scope: ${settings[4]}</p>
 
-.subtitle {
-    color: #ff3333;
-    margin-top: 5px;
-    letter-spacing: 3px;
-}
+        <p>
+            These are example settings for this website.
+            Test and adjust them to your own device and play style.
+        </p>
 
-main {
-    width: 100%;
-    max-width: 650px;
-    margin: auto;
-    padding: 25px 15px;
-}
+        <button id="backButton">🔙 Choose Another Device</button>
+    `;
 
-.hero {
-    padding: 35px 15px;
-}
+    document.getElementById("backButton").addEventListener("click", showDeviceList);
 
-.hero h1 {
-    font-size: 32px;
-    margin-bottom: 15px;
-}
-
-.hero p {
-    color: #ccc;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-button {
-    width: 100%;
-    max-width: 420px;
-    padding: 16px;
-    margin: 8px auto;
-    display: block;
-
-    border: none;
-    border-radius: 10px;
-
-    background: #e00000;
-    color: white;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-button:hover {
-    background: #ff2222;
-    transform: scale(1.02);
-}
-
-.content {
-    margin-top: 30px;
-    padding: 25px 15px;
-
-    background: #171717;
-    border: 1px solid #333;
-    border-radius: 12px;
-}
-
-.content h2 {
-    margin-bottom: 15px;
-}
-
-.content p {
-    color: #ccc;
-    margin: 10px 0;
-    line-height: 1.5;
-}
-
-.device-list {
-    margin-top: 15px;
-}
-
-footer {
-    margin-top: 30px;
-    padding: 25px 15px;
-
-    color: #777;
-    font-size: 13px;
-
-    border-top: 1px solid #222;
+    content.scrollIntoView({ behavior: "smooth" });
 }
